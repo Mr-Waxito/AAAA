@@ -42,22 +42,30 @@ document.addEventListener("keydown", (e) => {
   const ok1 = s === "ShiftLeft,Digit7,KeyN";
   const ok2 = s === "ShiftRight,Digit7,KeyN";
 
-  if (ok1 || ok2) {
-    // mostrar formulario + bloque cifrado
-    if (unlockForm) unlockForm.style.display = "block";
-    if (cipherBlock) {
-  cipherText = cipherBlock.textContent.trim(); // ✅ obtenemos el cifrado desde el div
-  cipherBlock.style.display = "block"; // opcional: mostrarlo o no
-}
-    // foco al input
-    if (keyInput) {
-      keyInput.focus();
-      keyInput.select();
-    }
-    // limpiar secuencia
-    seq = [];
-    if (seqTimer) { clearTimeout(seqTimer); seqTimer = null; }
+if (ok1 || ok2) {
+  // mostrar formulario
+  if (unlockForm) unlockForm.style.display = "block";
+
+  // Mostrar la imagen si existe
+  const unlockImage = document.getElementById("unlockImage");
+  if (unlockImage) unlockImage.style.display = "block";
+
+  // mostrar bloque cifrado
+  if (cipherBlock) {
+    cipherText = cipherBlock.textContent.trim(); // obtenemos el cifrado desde el div
+    cipherBlock.style.display = "block"; // opcional: mostrarlo o no
   }
+
+  // foco al input
+  if (keyInput) {
+    keyInput.focus();
+    keyInput.select();
+  }
+
+  // limpiar secuencia
+  seq = [];
+  if (seqTimer) { clearTimeout(seqTimer); seqTimer = null; }
+}
 });
 
 // Permitir Enter en el input para ejecutar unlock
@@ -105,3 +113,4 @@ function unlock() {
     alert("Ocurrió un error al desencriptar.");
   }
 }
+
