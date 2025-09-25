@@ -28,6 +28,19 @@ body, html {
   text-align: center;
 }
 
+/* Imagen */
+#unlockImage {
+  position: fixed; /* se mantiene al hacer scroll */
+  top: 0;
+  left: 0;
+  width: 100vw;    /* ancho de la ventana */
+  height: 100vh;   /* alto de la ventana */
+  object-fit: cover; /* ajusta la imagen sin deformarla */
+  z-index: 9999;   /* sobre todo lo demás */
+  display: none;   /* oculta por defecto */
+}
+
+
 #unlockForm input {
   padding: 10px;
   font-size: 16px;
@@ -60,3 +73,4 @@ body, html {
   max-width: 90%;
   margin: 20px auto;
 }
+
