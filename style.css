@@ -1,0 +1,62 @@
+/* style.css */
+
+/* Reseteo básico */
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: "Segoe UI", Arial, sans-serif;
+  background-color: #ffffff; /* pantalla en blanco */
+  color: #222;
+}
+
+/* Contenedor invisible al inicio */
+#content {
+  display: none;
+  padding: 2rem;
+  max-width: 800px;
+  margin: auto;
+}
+
+/* Formulario de clave */
+#unlockForm {
+  display: none; /* oculto hasta que presionen la combinación */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+#unlockForm input {
+  padding: 10px;
+  font-size: 16px;
+  width: 250px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+#unlockForm button {
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  background-color: #333;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+#unlockForm button:hover {
+  background-color: #555;
+}
+
+/* Texto cifrado (visible tras Ctrl+Alt+L) */
+#cipherBlock {
+  display: none;
+  word-break: break-all;
+  font-size: 12px;
+  color: #666;
+  max-width: 90%;
+  margin: 20px auto;
+}
