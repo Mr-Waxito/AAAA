@@ -1,88 +1,68 @@
-/* Reseteo y configuración básica */
+/* Estilos principales. El body no tiene imagen de fondo por defecto. */
 body, html {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  font-family: "Segoe UI", Arial, sans-serif;
-  background-color: #ffffff;
-  color: #222;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: "Segoe UI", Arial, sans-serif;
+    background-color: #ffffff;
+    color: #222;
+    transition: background-image 1s ease-in-out; /* Transición suave */
 }
 
-/* Imagen de fondo. Se usa un contenedor para posicionar la imagen fija. */
-#unlockImage {
-  display: none; /* Se oculta por defecto y se muestra con JavaScript */
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: 1; /* Asegura que esté detrás de otros elementos */
-  background-size: cover;
-  background-position: center;
-  background-image: url('image-asset.jpeg'); /* Se carga la imagen como fondo CSS */
+/* Clase para mostrar la imagen de fondo. La añadiremos con JavaScript. */
+body.unlocked-bg {
+    background-image: url('image-asset.jpeg');
+    background-size: cover;
+    background-position: center;
 }
 
 /* Contenedor del contenido desbloqueado */
 #content {
-  display: none;
-  padding: 2rem;
-  max-width: 800px;
-  margin: auto;
+    display: none;
+    padding: 2rem;
+    max-width: 800px;
+    margin: auto;
 }
 
-/* Formulario de desbloqueo. Se mantiene centrado y encima de la imagen. */
+/* Formulario de desbloqueo, centrado en la pantalla */
 #unlockForm {
-  display: none; /* Se oculta por defecto */
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
-  z-index: 10; /* Un z-index alto para asegurar visibilidad */
-  background-color: rgba(255, 255, 255, 0.9);
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    z-index: 10; /* Aseguramos que el formulario esté por encima del texto cifrado */
 }
 
-/* Input y botón del formulario */
-#unlockForm input {
-  padding: 10px;
-  font-size: 16px;
-  width: 250px;
-  margin-bottom: 10px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
+/* Estilos de input y botón */
+#unlockForm input, #unlockForm button {
+    margin: 10px 0;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
 }
 
-#unlockForm button {
-  padding: 10px 20px;
-  font-size: 16px;
-  border: none;
-  background-color: #333;
-  color: white;
-  border-radius: 8px;
-  cursor: pointer;
-}
-
-#unlockForm button:hover {
-  background-color: #555;
-}
-
-/* Texto cifrado */
+/* Texto cifrado, centrado en la pantalla pero con un z-index más bajo */
 #cipherBlock {
-  display: none; /* Se oculta por defecto */
-  word-break: break-all;
-  font-size: 12px;
-  color: #666;
-  max-width: 90%;
-  margin: 20px auto;
-  z-index: 5; /* Un z-index intermedio */
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+    display: none;
+    position: absolute;
+    top: calc(50% + 100px); /* Un poco debajo del formulario */
+    left: 50%;
+    transform: translateX(-50%);
+    word-break: break-all;
+    font-size: 12px;
+    color: #666;
+    max-width: 90%;
+    z-index: 5; /* Asegura que el formulario esté encima del texto */
+    text-align: center;
 }
+
 
 
 
