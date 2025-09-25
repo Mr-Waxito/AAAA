@@ -30,15 +30,16 @@ body, html {
 
 /* Imagen */
 #unlockImage {
-  position: fixed; /* se mantiene al hacer scroll */
+  display: none; /* lo ocultamos al inicio */
+  position: fixed;
   top: 0;
   left: 0;
-  width: 100vw;    /* ancho de la ventana */
-  height: 100vh;   /* alto de la ventana */
-  object-fit: cover; /* ajusta la imagen sin deformarla */
-  z-index: 9999;   /* sobre todo lo demás */
-  display: none;   /* oculta por defecto */
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover; /* ajusta la imagen manteniendo proporción */
+  z-index: 9999; /* encima de todo */
 }
+
 
 
 #unlockForm input {
@@ -73,4 +74,5 @@ body, html {
   max-width: 90%;
   margin: 20px auto;
 }
+
 
