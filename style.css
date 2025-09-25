@@ -1,5 +1,3 @@
-/* style.css */
-
 /* Reseteo básico */
 body, html {
   margin: 0;
@@ -26,22 +24,23 @@ body, html {
   left: 50%;
   transform: translate(-50%, -50%);
   text-align: center;
+  background: rgba(255, 255, 255, 0.95); /* fondo semi-transparente */
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  z-index: 1000;
 }
 
-/* Imagen */
+/* Imagen (como antes, visible pero no full screen) */
 #unlockImage {
-  display: none; /* lo ocultamos al inicio */
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  object-fit: cover; /* ajusta la imagen manteniendo proporción */
-  z-index: 9999; /* encima de todo */
+  display: none;
+  max-width: 300px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
 }
 
-
-
+/* Input del formulario */
 #unlockForm input {
   padding: 10px;
   font-size: 16px;
@@ -51,6 +50,7 @@ body, html {
   border-radius: 8px;
 }
 
+/* Botón del formulario */
 #unlockForm button {
   padding: 10px 20px;
   font-size: 16px;
@@ -65,7 +65,7 @@ body, html {
   background-color: #555;
 }
 
-/* Texto cifrado (visible tras Ctrl+Alt+L) */
+/* Texto cifrado */
 #cipherBlock {
   display: none;
   word-break: break-all;
@@ -74,5 +74,6 @@ body, html {
   max-width: 90%;
   margin: 20px auto;
 }
+
 
 
