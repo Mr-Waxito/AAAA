@@ -1,9 +1,14 @@
 // script.js
 // ------------- Pega aquí tu texto cifrado (cadena larga) -------------
+// Usamos una constante para una mejor práctica.
 const cipherBlock = document.getElementById("cipherBlock");
-let cipherText = cipherBlock ? cipherBlock.textContent.trim() : "";
+// Usa un operador de encadenamiento opcional para una sintaxis más limpia.
+let cipherText = cipherBlock?.textContent.trim() || "";
 
 // Secuencia objetivo: Shift + 7 + N (aceptamos ShiftLeft o ShiftRight)
+const TARGET_SEQUENCE = ["ShiftLeft", "Digit7", "KeyN"];
+const TARGET_SEQUENCE_ALT = ["ShiftRight", "Digit7", "KeyN"];
+
 let seq = [];
 let seqTimer = null;
 const SEQ_TIMEOUT = 2000; // ms para resetear la secuencia si tardas mucho
@@ -13,77 +18,106 @@ const unlockForm = document.getElementById("unlockForm");
 const contentDiv = document.getElementById("content");
 const keyInput = document.getElementById("keyInput");
 const unlockImage = document.getElementById("unlockImage");
+const unlockButton = document.getElementById("unlockButton"); // Añadido para el botón
 
-// Ocultamos al inicio por si no lo hiciste en CSS
-if (unlockForm) unlockForm.style.display = "none";
-if (cipherBlock) cipherBlock.style.display = "none";
-if (contentDiv) contentDiv.style.display = "none";
-if (unlockImage) unlockImage.style.display = "none";
+// Función para manejar el estado de los elementos
+function setInitialState() {
+  if (unlockForm) unlockForm.style.display = "none";
+  if (cipherBlock) cipherBlock.style.display = "none";
+  if (contentDiv) contentDiv.style.display = "none";
+  if (unlockImage) unlockImage.style.display = "none";
+}
+
+// Llamar a la función al inicio del script
+setInitialState();
 
 // Escucha global de teclado
 document.addEventListener("keydown", (e) => {
-  const tag = (document.activeElement && document.activeElement.tagName) || "";
-  if (tag === "INPUT" || tag === "TEXTAREA") return;
+  const tag = e.target?.tagName;
+  // Mejoramos la condición para evitar que el script se active en inputs
+  if (tag === "INPUT" || tag === "TEXTAREA" || tag === "BUTTON") {
+    return;
+  }
 
-  seq.push(e.code);
+  // Si la tecla presionada es "Shift", no la agregues al array 'seq'
+  if (e.code.startsWith("Shift")) {
+    // Si la tecla "Shift" ya está en la secuencia, no la agregues de nuevo.
+    if (!seq.includes(e.code)) {
+      seq.push(e.code);
+    }
+  } else {
+    // Si la tecla no es "Shift", solo la agregamos a la secuencia.
+    seq.push(e.code);
+  }
 
-  // Mantener solo las últimas 3 teclas
-  if (seq.length > 3) seq.shift();
+  // Mantener solo las últimas 3 teclas.
+  if (seq.length > 3) {
+    seq = seq.slice(-3);
+  }
 
-  // reiniciar timeout
-  if (seqTimer) clearTimeout(seqTimer);
+  // Reiniciar timeout
+  if (seqTimer) {
+    clearTimeout(seqTimer);
+  }
+
   seqTimer = setTimeout(() => {
     seq = [];
     seqTimer = null;
   }, SEQ_TIMEOUT);
 
-  // Comprobar secuencia
-  const s = seq.join(",");
-  const ok1 = s === "ShiftLeft,Digit7,KeyN";
-  const ok2 = s === "ShiftRight,Digit7,KeyN";
+  // Comprobar secuencia. Usamos `JSON.stringify` para comparar arrays de forma simple.
+  const s = JSON.stringify(seq);
+  const ok = s === JSON.stringify(TARGET_SEQUENCE) || s === JSON.stringify(TARGET_SEQUENCE_ALT);
 
-  if (ok1 || ok2) {
-    // Mostrar formulario
+  if (ok) {
+    // Mostrar formulario y elementos relacionados.
     if (unlockForm) unlockForm.style.display = "block";
-
-    // Mostrar bloque cifrado
     if (cipherBlock) cipherBlock.style.display = "block";
-
-    // Mostrar imagen como fondo, pero sin bloquear clicks
     if (unlockImage) {
       unlockImage.style.display = "block";
       unlockImage.style.pointerEvents = "none";
     }
 
-    // Enfocar input
+    // Enfocar el input.
     if (keyInput) {
       keyInput.focus();
       keyInput.select();
     }
 
-    // Limpiar secuencia
+    // Limpiar secuencia y timeout.
     seq = [];
-    if (seqTimer) { clearTimeout(seqTimer); seqTimer = null; }
+    if (seqTimer) {
+      clearTimeout(seqTimer);
+      seqTimer = null;
+    }
   }
 });
 
 // Permitir Enter en el input para ejecutar unlock
 if (keyInput) {
   keyInput.addEventListener("keyup", (e) => {
-    if (e.key === "Enter") unlock();
+    if (e.key === "Enter") {
+      unlock();
+    }
   });
+}
+
+// Escuchar el click del botón
+if (unlockButton) {
+  unlockButton.addEventListener("click", unlock);
 }
 
 // Función principal: desencriptar y mostrar HTML
 function unlock() {
-  const key = (keyInput && keyInput.value) || "";
-  if (!key) {
-    alert("Ingresa la clave.");
+  // Verificamos si CryptoJS existe antes de usarlo.
+  if (typeof CryptoJS === 'undefined' || !cipherText) {
+    alert("CryptoJS no está cargado o no hay texto cifrado.");
     return;
   }
 
-  if (!cipherText || cipherText.trim() === "") {
-    alert("No hay texto cifrado. Revisa que 'cipherText' tenga el valor correcto.");
+  const key = keyInput?.value.trim() || "";
+  if (!key) {
+    alert("Ingresa la clave.");
     return;
   }
 
@@ -91,12 +125,13 @@ function unlock() {
     const bytes = CryptoJS.AES.decrypt(cipherText, key);
     const plaintext = bytes.toString(CryptoJS.enc.Utf8);
 
+    // Verificamos si la desencriptación fue exitosa (el resultado no está vacío)
     if (!plaintext) {
       alert("Clave incorrecta o desencriptación fallida.");
       return;
     }
 
-    // Ocultar formulario/bloque y mostrar contenido desencriptado
+    // Ocultar elementos y mostrar contenido desencriptado.
     if (unlockForm) unlockForm.style.display = "none";
     if (cipherBlock) cipherBlock.style.display = "none";
     if (contentDiv) {
@@ -104,11 +139,11 @@ function unlock() {
       contentDiv.innerHTML = plaintext;
     }
 
-    // limpiar input
+    // Limpiar input
     if (keyInput) keyInput.value = "";
   } catch (err) {
     console.error("Error desencriptando:", err);
-    alert("Ocurrió un error al desencriptar.");
+    alert("Ocurrió un error al desencriptar. Revisa la consola para más detalles.");
   }
 }
 
