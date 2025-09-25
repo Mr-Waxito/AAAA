@@ -1,75 +1,97 @@
-/* Reseteo básico */
+/* Reseteo y configuración básica */
 body, html {
   margin: 0;
   padding: 0;
   height: 100%;
   font-family: "Segoe UI", Arial, sans-serif;
-  background-color: #ffffff; /* pantalla en blanco */
+  background-color: #ffffff;
   color: #222;
 }
 
-/* Contenedor invisible al inicio */
-#content {
+/* Ocultar elementos por defecto usando una clase.
+   Esto es una mejor práctica que usar IDs. */
+.hidden {
   display: none;
+}
+
+/* Contenedor del contenido desbloqueado */
+#content {
   padding: 2rem;
   max-width: 800px;
   margin: auto;
 }
 
-/* Formulario de desbloqueo */
-#unlockForm {
-  display: none;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
-  z-index: 2; /* encima de la imagen */
-  background-color: rgba(255, 255, 255, 0.8); /* opcional: fondo semitransparente para mejorar visibilidad */
-  padding: 20px;
-  border-radius: 10px;
-}
-
-/* Imagen dentro del formulario (fondo) */
-#unlockImage {
-  display: none;
-  position: fixed;
+/* Contenedor para el formulario y la imagen */
+#unlockContainer {
+  position: fixed; /* O fixed para ocupar toda la ventana */
   top: 0;
   left: 0;
-  width: 100vw;
-  height: 100vh;
-  object-fit: cover;
-  z-index: 1; /* más bajo que el formulario */
+  width: 100%;
+  height: 100%;
+  display: flex; /* Usamos flexbox para centrar fácilmente */
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
 }
 
-/* Input del formulario */
+/* Formulario de desbloqueo, dentro del contenedor */
+#unlockForm {
+  text-align: center;
+  background-color: rgba(255, 255, 255, 0.85); /* Fondo ligeramente más sólido */
+  backdrop-filter: blur(5px); /* Efecto de desenfoque detrás del formulario (si el navegador lo soporta) */
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Sombra para darle profundidad */
+  position: relative; /* Para que la imagen del fondo se muestre detrás */
+  z-index: 3; /* Aseguramos que el formulario esté encima de la imagen y el contenedor */
+}
+
+/* Imagen de fondo */
+#unlockImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1; /* Detrás del formulario */
+}
+
+/* Inputs del formulario */
 #unlockForm input {
-  padding: 10px;
+  padding: 12px; /* Aumentamos el padding para un mejor tacto */
   font-size: 16px;
-  width: 250px;
-  margin-bottom: 10px;
+  width: 280px; /* Aumentamos el ancho */
+  margin-bottom: 1rem;
   border: 1px solid #ccc;
   border-radius: 8px;
+  transition: border-color 0.3s; /* Transición suave al enfocar */
 }
 
-/* Botón del formulario */
+#unlockForm input:focus {
+  outline: none;
+  border-color: #333; /* Color de borde al enfocar */
+}
+
+/* Botones del formulario */
 #unlockForm button {
-  padding: 10px 20px;
+  padding: 12px 24px;
   font-size: 16px;
   border: none;
   background-color: #333;
   color: white;
   border-radius: 8px;
   cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s; /* Transiciones suaves */
 }
 
 #unlockForm button:hover {
   background-color: #555;
+  transform: translateY(-2px); /* Pequeño efecto al pasar el mouse */
 }
 
 /* Texto cifrado */
 #cipherBlock {
-  display: none;
   word-break: break-all;
   font-size: 12px;
   color: #666;
